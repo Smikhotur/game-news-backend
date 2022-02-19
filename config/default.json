@@ -1,0 +1,6 @@
+{
+  "serverPort": 5000,
+  "bdUrl": "mongodb+srv://roman:<lamalama>@cluster0.8egxf.mongodb.net/gamingNews?retryWrites=true&w=majority",
+  "secretKey": "game-news-key",
+  "filePath": "/home/dev/Documents/project/back-end-gn/file"
+}

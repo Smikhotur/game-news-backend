@@ -1,0 +1,36 @@
+{
+  "name": "back-end-gn",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@bitbucket.org/romans_jsn/back-end-gn.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://bitbucket.org/romans_jsn/back-end-gn/issues"
+  },
+  "homepage": "https://bitbucket.org/romans_jsn/back-end-gn#readme",
+  "dependencies": {
+    "aws-sdk": "^2.1070.0",
+    "bcryptjs": "^2.4.3",
+    "concurrently": "^7.0.0",
+    "config": "^3.3.7",
+    "cors": "^2.8.5",
+    "express": "^4.17.2",
+    "express-validator": "^6.14.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.2.0",
+    "multer": "^1.4.4",
+    "nodemon": "^2.0.15"
+  },
+  "devDependencies": {
+    "dotenv": "^16.0.0"
+  }
+}
