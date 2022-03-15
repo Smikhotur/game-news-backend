@@ -5,6 +5,7 @@ const cookieSession = require('cookie-session');
 const cors = require('cors');
 require('dotenv').config();
 const authRouter = require('./routes/auth.routes');
+const gamesRouter = require('./routes/games.router');
 const errorMiddleware = require('./middleware/error-midddleware');
 const passport = require('passport');
 
@@ -18,6 +19,7 @@ app.use(cors({
   origin: process.env.CLIENT_URL
 }));
 app.use('/api/auth', authRouter);
+app.use('/api/game', gamesRouter);
 app.use(errorMiddleware);
 app.use(cookieSession({
   name: 'session',
@@ -37,7 +39,7 @@ const start = async () => {
       console.log(`Server started on port ${PORT}`)
     });
   } catch (e) {
-
+    console.log(e)
   }
 };
 
