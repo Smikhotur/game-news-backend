@@ -5,7 +5,10 @@ const mailService = require('../services/mail-service')
 const tokenService = require('../services/token-service')
 const UserDto = require('../dtos/user-dto')
 const ApiError = require('../exceptions/api-error')
-const GoogleStrategy = require( 'passport-google-oauth2' ).Strategy;
+const { request } = require('express')
+const GoogleStrategy = require( 'passport-google-oauth20' ).Strategy;
+const passport = require('passport');
+const passportSetup = require('passport');
 
 class UserService {
   async registration({email, password, nikname, lastName, firstName, file}) {
@@ -110,12 +113,23 @@ class UserService {
         callbackURL: `${process.env.API_URL}/api/auth/google/callback`,
         passReqToCallback: true
       },
-      function(request, accessToken, refreshToken, profile, done) {
+      function(accessToken, refreshToken, profile, done) {
         User.findOrCreate({ googleId: profile.id }, function (err, user) {
           return done(err, user);
+          // const user = {
+          //   username
+          // }
         });
       }
     ));
+
+    passport.serializeUser((user, done) => {
+      done(null, user);
+    });
+
+    passport.deserializeUser((user, done) => {
+      done(null, user);
+    });
   }
 
   async facebook() {
