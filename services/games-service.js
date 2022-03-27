@@ -1,7 +1,8 @@
-const BestSeriesGames = require('../models/BestSeriesGames')
-const CommentsSchema = require('../models/CommentsModel')
-const Details_gameSchema = require('../models/DetailsGame')
-
+const BestSeriesGames = require('../models/BestSeriesGames');
+const CommentsSchema = require('../models/CommentsModel');
+const Details_gameSchema = require('../models/DetailsGame');
+const UserModel = require('../models/UserModel');
+const moment = require('moment');
 class GamesService {
   async getAllGames(params) {
     const games = await BestSeriesGames.find();
@@ -14,20 +15,28 @@ class GamesService {
     return detailGame
   }
 
-  async commentCheck({ id_person, id_game, avatar, date_left, autor, text }) {
+  async commentCheck({ id_person, id_game, text }) {
+    const user = await UserModel.findOne({id_person});
+
     const comment = await CommentsSchema.create({
       id_person,
       id_game,
-      avatar,
-      date_left,
-      autor,
+      avatar: user.avatar,
+      date_left: moment().format('LL'),
+      autor: user.lastName + " " + user.firstName,
       text
     });
 
-    console.log(comment);
-
     if (comment) {
-      return { "status": "Comment was add" }
+      return comment;
+    }
+  }
+
+  async findComments(params) {
+    const comments = await (await CommentsSchema.find({"id_game": params.id_game.slice(1)})).reverse();
+
+    if (comments) {
+      return comments.slice(0, params.count.slice(1));
     }
   }
 }
