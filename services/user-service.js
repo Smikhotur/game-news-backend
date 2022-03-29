@@ -75,14 +75,11 @@ class UserService {
   }
 
   async logout(refreshToken) {
-    console.log(refreshToken)
     const token = await tokenService.removeToken(refreshToken);
     return token;
   }
 
   async refresh(refreshToken) {
-    console.log('services', refreshToken)
-
     if (!refreshToken) {
       throw ApiError.UnauthorzedError();
     }

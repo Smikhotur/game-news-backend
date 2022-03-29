@@ -6,7 +6,6 @@ const moment = require('moment');
 class GamesService {
   async getAllGames(params) {
     const games = await BestSeriesGames.find();
-    console.log(games)
     return games.filter((game) => game.name.toLowerCase().includes(params.slice(1).toLowerCase()));
   }
 
@@ -16,13 +15,13 @@ class GamesService {
   }
 
   async commentCheck({ id_person, id_game, text }) {
-    const user = await UserModel.findOne({id_person});
+    const user = await UserModel.findOne({"_id": id_person});
 
     const comment = await CommentsSchema.create({
       id_person,
       id_game,
       avatar: user.avatar,
-      date_left: moment().format('LL'),
+      date_left: moment().format('lll'),
       autor: user.lastName + " " + user.firstName,
       text
     });

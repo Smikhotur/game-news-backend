@@ -6,9 +6,10 @@ const cors = require('cors');
 require('dotenv').config();
 const authRouter = require('./routes/auth.routes');
 const gamesRouter = require('./routes/games.router');
+const conversationRoute = require('./routes/conversations');
+const messageRoute = require('./routes/messeges');
 const errorMiddleware = require('./middleware/error-midddleware');
 const passport = require('passport');
-
 const app = express();
 const PORT = process.env.PORT || 8080;
 
@@ -20,6 +21,8 @@ app.use(cors({
 }));
 app.use('/api/auth', authRouter);
 app.use('/api/game', gamesRouter);
+app.use("/api/conversations", conversationRoute);
+app.use("/api/messages", messageRoute);
 app.use(errorMiddleware);
 app.use(cookieSession({
   name: 'session',

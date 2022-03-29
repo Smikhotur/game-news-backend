@@ -33,7 +33,6 @@ class GamesController {
   async getComments(req, res, next) {
     try {
       const params = req.params
-      console.log(params);
       const comments = await gamesService.findComments(params);
       return res.json(comments);
     } catch (error) {
