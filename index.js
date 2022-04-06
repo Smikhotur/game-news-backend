@@ -32,25 +32,29 @@ app.use(cookieSession({
 app.use(passport.initialize());
 app.use(passport.session());
 
-const start = async () => {
-  try {
-    await mongoose.connect(process.env.DB_URL, {
+mongoose.connect(process.env.DB_URL, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
+    })
+    .then(() => {
+      console.log("DB Connetion Successfull");
+    })
+    .catch((e) => {
+      console.log(e.message);
     });
-    app.listen(PORT, () => {
-      console.log(`Server started on port ${PORT}`)
-    });
-  } catch (e) {
-    console.log(e)
-  }
-};
 
-start();
+  const server = app.listen(PORT, () => {
+    console.log(`Server started on port ${PORT}`)
+  });
 
-const io = require("socket.io")(8900, {
+  console.log(server);
+
+const io = require("socket.io")(server, {
   cors: {
-    origin: process.env.CLIENT_URL
+    origin: process.env.CLIENT_URL,
+    methods: ["GET", "POST"],
+    allowedHeaders: ["my-custom-header"],
+    credentials: true
   }
 });
 
