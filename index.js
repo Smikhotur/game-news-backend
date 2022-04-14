@@ -47,8 +47,6 @@ mongoose.connect(process.env.DB_URL, {
     console.log(`Server started on port ${PORT}`)
   });
 
-  console.log(server);
-
 const io = require("socket.io")(server, {
   cors: {
     origin: process.env.CLIENT_URL,
@@ -58,10 +56,14 @@ const io = require("socket.io")(server, {
 let users = [];
 
 const addUser = (userId, socketId) => {
-  console.log('userId', userId);
+  const result = users.some((user) => {
+    if (user.userId === userId) {
+      user.socketId = socketId
+    }
+    return user.userId === userId
+  });
 
-  !users.some((user) => user.userId === userId) &&
-    users.push({ userId, socketId })
+  if (!result) users.push({ userId, socketId })
 }
 
 const removeUser = (socketId) => {
@@ -73,25 +75,29 @@ const getUser = (userId) => {
 }
 
 io.on("connection", (socket) => {
-  //when connect
   console.log("a user connected.");
-  //take userId and socketId from user
   socket.on("addUser", (userId) => {
     addUser(userId, socket.id);
     io.emit("getUsers", users);
   });
-  //when send and get message
-  socket.on("sendMessage", ({senderId, receiverId, text}) => {
+  socket.on("sendMessage", ({senderId, receiverId, text, avatar}) => {
     const user = getUser(receiverId);
+    console.log('user', user);
+
     io.to(user?.socketId).emit("getMessage", {
+      receiverId,
       senderId,
       text,
-    })
-  })
-  //when disconnect
-  socket.on("disconnect", () => {
+      avatar,
+    });
+    io.emit("getUsers", users);
+  });
+  socket.on("remove", () => {
     console.log("a user disconnect")
     removeUser(socket.id);
+    // console.log(socket.id);
+    console.log(users);
+    console.log(socket.id);
     io.emit("getUsers", users);
   });
 });
