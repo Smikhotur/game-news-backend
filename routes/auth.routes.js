@@ -14,6 +14,7 @@ router.post('/logout', UserController.logout);
 router.get('/activate/:link', UserController.activate);
 router.get('/refresh', UserController.refresh);
 router.get('/users', authMiddleware, UserController.getUsers);
+router.patch('/users/:id', UserController.updateInfoUser);
 // router.get('/google', passport.authenticate('google', {  scope: ['profile'] }));
 // router.get('/google/callback', passport.authenticate('google', {
 //   successRedirect: process.env.CLIENT_URL,

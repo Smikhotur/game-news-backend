@@ -13,6 +13,7 @@ class MailService {
       }
     })
   }
+
   async sendActivationMail(to, link) {
     await this.transporter.sendMail({
       from: process.env.SMTP_USER,
@@ -26,6 +27,16 @@ class MailService {
             <a href="${link}">${link}</a>
           </div>
         `
+    })
+  }
+
+  async sendErrorMail(email) {
+    console.log(email);
+    await this.transporter.sendMail({
+      from: email,
+      to: process.env.SMTP_USER,
+      subject: email,
+      text: 'Error 404 page not found',
     })
   }
 }

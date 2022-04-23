@@ -1,6 +1,7 @@
 const userService = require('../services/user-service');
 const { validationResult } = require('express-validator');
 const ApiError = require('../exceptions/api-error');
+const UserModel = require('../models/UserModel');
 
 class UserController {
   async registration(req, res, next) {
@@ -66,6 +67,17 @@ class UserController {
       return res.json(users);
     } catch (error) {
       next(error)
+    }
+  }
+
+  async updateInfoUser(req, res) {
+    try {
+      const filter = {_id: req.params.id};
+      const update = req.body;
+      await UserModel.updateOne(filter, update)
+      res.status(200).json({message: 'User information was updated successfully'});
+    } catch (err) {
+      res.status(500).json({message: 'There was an error updated the user information'});
     }
   }
 }

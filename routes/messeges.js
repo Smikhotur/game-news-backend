@@ -7,5 +7,6 @@ router.get("/users/:all", messageController.getUsers);
 router.post("/users/search", messageController.userSearch);
 router.delete("/:idMessage", messageController.deleteMessage);
 router.patch("/update/:idMessage", messageController.updateMessage);
+router.get("/send-error/:error", messageController.sendError);
 
 module.exports = router;

@@ -1,4 +1,5 @@
 const Message = require("../models/MessageSchema");
+const MailService = require("../services/mail-service");
 const MessagesService = require("../services/messages-service");
 
 class MessageController {
@@ -58,6 +59,15 @@ class MessageController {
       const update = req.body;
       await Message.updateOne(filter, update);
       res.status(200).json({message: 'Message was updated successfully'});
+    } catch (err) {
+      res.status(500).json({message: 'There was an error updated the message'});
+    }
+  }
+
+  async sendError(req, res) {
+    try {
+      await MailService.sendErrorMail(req.params.error);
+      res.status(200).json({message: 'Error was sent', link: 'sent_message'});
     } catch (err) {
       res.status(500).json({message: 'There was an error updated the message'});
     }

@@ -11,7 +11,7 @@ const passport = require('passport');
 const passportSetup = require('passport');
 
 class UserService {
-  async registration({email, password, nikname, lastName, firstName, file}) {
+  async registration({email, password, phoneNumber, lastName, firstName, file}) {
     const candidate = await UserModel.findOne({email})
     if (candidate) {
       throw ApiError.BadRequest(`User with email ${email} already exist`)
@@ -21,7 +21,7 @@ class UserService {
     const user = await UserModel.create({
       email,
       password: hashPassword,
-      nikname,
+      phoneNumber,
       lastName,
       firstName,
       avatar: file
@@ -34,7 +34,7 @@ class UserService {
 
     return {...tokens, user: {
       ...userDto,
-      nikname: user.nikname,
+      phoneNumber: user.phoneNumber,
       lastName: user.lastName,
       firstName: user.firstName,
       avatar: user.avatar,
@@ -67,7 +67,7 @@ class UserService {
 
     return {...tokens, user: {
       ...userDto,
-      nikname: user.nikname,
+      phoneNumber: user.phoneNumber,
       lastName: user.lastName,
       firstName: user.firstName,
       avatar: user.avatar,
@@ -96,7 +96,7 @@ class UserService {
 
     return {...tokens, user: {
       ...userDto,
-      nikname: user.nikname,
+      phoneNumber: user.phoneNumber,
       lastName: user.lastName,
       firstName: user.firstName,
       avatar: user.avatar,
