@@ -92,6 +92,26 @@ io.on("connection", (socket) => {
     });
     io.emit("getUsers", users);
   });
+
+  socket.on("sendEditMessage", ({receiverId, messageId, text}) => {
+    const user = getUser(receiverId);
+    console.log(receiverId, messageId, text);
+
+    io.to(user?.socketId).emit("getEditMessage", {
+      messageId,
+      text,
+    });
+  });
+
+  socket.on("deleteMessageSocket", ({messageId, receiverId}) => {
+    const user = getUser(receiverId);
+    console.log(receiverId, messageId);
+
+    io.to(user?.socketId).emit("deleteMessage", {
+      messageId,
+    });
+  });
+
   socket.on("remove", () => {
     console.log("a user disconnect")
     removeUser(socket.id);

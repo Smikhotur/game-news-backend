@@ -58,7 +58,10 @@ class MessageController {
       const filter = { _id: req.params.idMessage };
       const update = req.body;
       await Message.updateOne(filter, update);
-      res.status(200).json({message: 'Message was updated successfully'});
+      const messages = await Message.find({
+        conversationId: req.params.conversationId,
+      });
+      res.status(200).json(messages);
     } catch (err) {
       res.status(500).json({message: 'There was an error updated the message'});
     }
